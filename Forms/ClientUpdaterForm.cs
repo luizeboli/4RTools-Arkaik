@@ -1,10 +1,8 @@
-﻿using _4RTools.Utils;
-using _4RTools.Model;
-using System.Windows.Forms;
+﻿using _4RTools.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Windows.Forms;
 
 namespace _4RTools.Forms
 {
@@ -21,28 +19,17 @@ namespace _4RTools.Forms
             StartUpdate();
         }
 
-        private async void StartUpdate()
+        private void StartUpdate()
         {
             List<ClientDTO> clients = new List<ClientDTO>();
 
-
-            /**
-             * Try to load remote supported_server.json file and append all data in clients list.
-             */
             try
             {
-                clients.AddRange(LocalServerManager.GetLocalClients()); //Load Local Servers First
-                //If fetch successfully update and load local file.
-                httpClient.Timeout = TimeSpan.FromSeconds(5);
-                string remoteServersRaw = await httpClient.GetStringAsync(AppConfig._4RClientsURL);
-                clients.AddRange(JsonConvert.DeserializeObject<List<ClientDTO>>(remoteServersRaw));
-
-            }
-            catch(Exception ex)
-            {
-                //If catch some exception while Fetch, load resource file.
-                MessageBox.Show("Cannot load supported_servers file. Loading resource instead....");
                 clients.AddRange(JsonConvert.DeserializeObject<List<ClientDTO>>(LoadResourceServerFile()));
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cannot load supported_servers file....");
             }
             finally
             {
@@ -67,7 +54,7 @@ namespace _4RTools.Forms
                     pbSupportedServer.Increment(1);
                 }
                 catch { }
-                
+
             }
         }
     }

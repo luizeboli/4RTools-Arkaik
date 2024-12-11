@@ -61,7 +61,6 @@ namespace _4RTools.Forms
             this.tabPageAutopot = new System.Windows.Forms.TabPage();
             this.tabPageYggAutopot = new System.Windows.Forms.TabPage();
             this.tabPageSkillTimer = new System.Windows.Forms.TabPage();
-            this.panelAdvertisement = new System.Windows.Forms.Panel();
             this.atkDefMode.SuspendLayout();
             this.panelFooter.SuspendLayout();
             this.tabControlAutopot.SuspendLayout();
@@ -370,20 +369,12 @@ namespace _4RTools.Forms
             this.tabPageSkillTimer.Text = "Skill Timer";
             this.tabPageSkillTimer.UseVisualStyleBackColor = true;
             // 
-            // panelAdvertisement
-            // 
-            this.panelAdvertisement.Location = new System.Drawing.Point(596, 24);
-            this.panelAdvertisement.Name = "panelAdvertisement";
-            this.panelAdvertisement.Size = new System.Drawing.Size(292, 556);
-            this.panelAdvertisement.TabIndex = 26;
-            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(900, 624);
-            this.Controls.Add(this.panelAdvertisement);
+            this.ClientSize = new System.Drawing.Size(604, 624);
             this.Controls.Add(this.tabControlAutopot);
             this.Controls.Add(this.panelFooter);
             this.Controls.Add(this.panel5);
@@ -447,6 +438,5 @@ namespace _4RTools.Forms
         private TabPage tabMacroSwitch;
         private TabPage tabPageSkillTimer;
         private TabPage tabPageServer;
-        private Panel panelAdvertisement;
     }
 }

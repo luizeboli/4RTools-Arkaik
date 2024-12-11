@@ -1,10 +1,9 @@
-﻿using System;
+﻿using _4RTools.Model;
+using _4RTools.Utils;
+using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.IO;
-using _4RTools.Model;
-using _4RTools.Utils;
 
 namespace _4RTools.Forms
 {
@@ -38,7 +37,6 @@ namespace _4RTools.Forms
             SetATKDEFWindow();
             SetMacroSwitchWindow();
             SetServerWindow();
-            SetAdvertisementWindow();
 
             TrackerSingleton.Instance().SendEvent("desktop_login", "page_view", "desktop_container_load");
         }
@@ -60,7 +58,7 @@ namespace _4RTools.Forms
         {
             foreach (Control ctl in this.Controls)
             {
-                if ((ctl) is MdiClient)
+                if (ctl is MdiClient)
                 {
                     ctl.BackColor = Color.White;
                 }
@@ -153,7 +151,8 @@ namespace _4RTools.Forms
                     ProfileSingleton.Load(this.profileCB.Text); //LOAD PROFILE
                     subject.Notify(new Utils.Message(MessageCode.PROFILE_CHANGED, null));
                     currentProfile = this.profileCB.Text.ToString();
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -164,7 +163,8 @@ namespace _4RTools.Forms
         {
             switch ((subject as Subject).Message.code)
             {
-                case MessageCode.TURN_ON: case MessageCode.PROFILE_CHANGED:
+                case MessageCode.TURN_ON:
+                case MessageCode.PROFILE_CHANGED:
                     Client client = ClientSingleton.GetClient();
                     if (client != null)
                     {
@@ -197,15 +197,6 @@ namespace _4RTools.Forms
             frm.FormBorderStyle = FormBorderStyle.None;
             frm.Location = new Point(350, 70);
             frm.MdiParent = this;
-            frm.Show();
-        }
-
-        public void SetAdvertisementWindow()
-        {
-            AdvertisementForm frm = new AdvertisementForm();
-            frm.FormBorderStyle = FormBorderStyle.None;
-            frm.MdiParent = this;
-            this.panelAdvertisement.Controls.Add(frm);
             frm.Show();
         }
 
