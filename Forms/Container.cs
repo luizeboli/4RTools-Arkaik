@@ -36,7 +36,6 @@ namespace _4RTools.Forms
             SetSongMacroWindow();
             SetATKDEFWindow();
             SetMacroSwitchWindow();
-            SetServerWindow();
 
             TrackerSingleton.Instance().SendEvent("desktop_login", "page_view", "desktop_container_load");
         }
@@ -253,16 +252,6 @@ namespace _4RTools.Forms
             frm.MdiParent = this;
             frm.Show();
             addform(this.tabPageProfiles, frm);
-        }
-
-        public void SetServerWindow()
-        {
-            ServersForm frm = new ServersForm(subject);
-            frm.FormBorderStyle = FormBorderStyle.None;
-            frm.Location = new Point(0, 65);
-            frm.MdiParent = this;
-            frm.Show();
-            addform(this.tabPageServer, frm);
         }
 
         public void SetAutobuffStuffWindow()

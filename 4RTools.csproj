@@ -215,12 +215,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\AddServerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AddServerForm.Designer.cs">
-      <DependentUpon>AddServerForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\AdvertisementForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -262,12 +256,6 @@
     </Compile>
     <Compile Include="Forms\MacroSwitchForm.Designer.cs">
       <DependentUpon>MacroSwitchForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ServersForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ServersForm.Designer.cs">
-      <DependentUpon>ServersForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SkillAutoBuffForm.cs">
       <SubType>Form</SubType>
@@ -320,7 +308,6 @@
     <Compile Include="Model\Buff.cs" />
     <Compile Include="Model\BuffContainer.cs" />
     <Compile Include="Model\BuffRenderer.cs" />
-    <Compile Include="Model\LocalServerManager.cs" />
     <Compile Include="Model\StatusRecovery.cs" />
     <Compile Include="Model\Tracker.cs" />
     <Compile Include="Model\UserPreferences.cs" />
@@ -360,9 +347,6 @@
     <Compile Include="Utils\ProcessMemoryReader.cs" />
     <Compile Include="Utils\RObserver.cs" />
     <Compile Include="Utils\_4RThread.cs" />
-    <EmbeddedResource Include="Forms\AddServerForm.resx">
-      <DependentUpon>AddServerForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AdvertisementForm.resx">
       <DependentUpon>AdvertisementForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -383,9 +367,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MacroSwitchForm.resx">
       <DependentUpon>MacroSwitchForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ServersForm.resx">
-      <DependentUpon>ServersForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SkillAutoBuffForm.resx">
       <DependentUpon>SkillAutoBuffForm.cs</DependentUpon>
