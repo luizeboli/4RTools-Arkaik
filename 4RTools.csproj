@@ -239,12 +239,6 @@
     <Compile Include="Forms\AutoPatcher.Designer.cs">
       <DependentUpon>AutoPatcher.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ClientUpdaterForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ClientUpdaterForm.Designer.cs">
-      <DependentUpon>ClientUpdaterForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\MacroSongForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -337,6 +331,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Icons.resx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ClientUpdater.cs" />
     <Compile Include="Utils\EffectStatusIDs.cs" />
     <Compile Include="Utils\AppConfig.cs" />
     <Compile Include="Utils\Constants.cs" />
@@ -357,9 +352,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AutoPatcher.resx">
       <DependentUpon>AutoPatcher.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ClientUpdaterForm.resx">
-      <DependentUpon>ClientUpdaterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MacroSongForm.resx">
       <DependentUpon>MacroSongForm.cs</DependentUpon>

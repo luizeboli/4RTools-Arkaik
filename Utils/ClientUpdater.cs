@@ -4,22 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace _4RTools.Forms
+namespace _4RTools.Utils
 {
-    public partial class ClientUpdaterForm : Form
+    public static class ClientUpdater
     {
-        private System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
-
-        public ClientUpdaterForm()
-        {
-            var requestAccepts = httpClient.DefaultRequestHeaders.Accept;
-            requestAccepts.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd("request"); //Set the User Agent to "request"
-            InitializeComponent();
-            StartUpdate();
-        }
-
-        private void StartUpdate()
+        public static void StartUpdate()
         {
             List<ClientDTO> clients = new List<ClientDTO>();
 
@@ -34,27 +23,23 @@ namespace _4RTools.Forms
             finally
             {
                 LoadServers(clients);
-                new Container().Show();
-                Hide();
             }
         }
 
-        private string LoadResourceServerFile()
+        private static string LoadResourceServerFile()
         {
             return Resources._4RTools.ETCResource.supported_servers;
         }
 
-        private void LoadServers(List<ClientDTO> clients)
+        private static void LoadServers(List<ClientDTO> clients)
         {
             foreach (ClientDTO clientDTO in clients)
             {
                 try
                 {
                     ClientListSingleton.AddClient(new Client(clientDTO));
-                    pbSupportedServer.Increment(1);
                 }
                 catch { }
-
             }
         }
     }

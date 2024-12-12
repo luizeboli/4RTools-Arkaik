@@ -23,6 +23,8 @@ namespace _4RTools.Forms
             this.IsMdiContainer = true;
             SetBackGroundColorOfMDIForm();
 
+            ClientUpdater.StartUpdate();
+
             //Paint Children Forms 
             SetToggleApplicationStateWindow();
             SetAutopotWindow();
