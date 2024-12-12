@@ -309,7 +309,6 @@
     <Compile Include="Model\BuffContainer.cs" />
     <Compile Include="Model\BuffRenderer.cs" />
     <Compile Include="Model\StatusRecovery.cs" />
-    <Compile Include="Model\Tracker.cs" />
     <Compile Include="Model\UserPreferences.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\Action.cs" />
