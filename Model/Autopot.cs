@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using _4RTools.Utils;
+﻿using _4RTools.Utils;
+using Newtonsoft.Json;
+using System;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Newtonsoft.Json;
 
 namespace _4RTools.Model
 {
@@ -48,7 +47,7 @@ namespace _4RTools.Model
         {
             Stop();
             Client roClient = ClientSingleton.GetClient();
-            if(roClient != null)
+            if (roClient != null)
             {
                 int hpPotCount = 0;
                 this.thread = new _4RThread(_ => AutopotThreadExecution(roClient, hpPotCount));
@@ -88,8 +87,8 @@ namespace _4RTools.Model
             Keys k = (Keys)Enum.Parse(typeof(Keys), key.ToString());
             if ((k != Keys.None) && !Keyboard.IsKeyDown(Key.LeftAlt) && !Keyboard.IsKeyDown(Key.RightAlt))
             {
-                Interop.PostMessage(ClientSingleton.GetClient().process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, k, 0); // keydown
-                Interop.PostMessage(ClientSingleton.GetClient().process.MainWindowHandle, Constants.WM_KEYUP_MSG_ID, k, 0); // keyup
+                Client.SendKeysToClientIfActive((byte)k, 0, Constants.WM_KEYDOWN_MSG_ID, 0); // key down
+                Client.SendKeysToClientIfActive((byte)k, 0, Constants.WM_KEYUP_MSG_ID, 0);   // key up
             }
         }
 

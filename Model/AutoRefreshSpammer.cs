@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Windows.Input;
-using System.Windows.Forms;
+﻿using _4RTools.Utils;
 using Newtonsoft.Json;
-using _4RTools.Utils;
+using System;
+using System.Threading;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace _4RTools.Model
 {
@@ -36,7 +36,8 @@ namespace _4RTools.Model
         {
             if (this.refreshKey != Key.None)
             {
-                Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, (Keys)Enum.Parse(typeof(Keys), this.refreshKey.ToString()), 0);
+                Keys k = (Keys)Enum.Parse(typeof(Keys), this.refreshKey.ToString());
+                Client.SendKeysToClientIfActive((byte)k, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
             }
             Thread.Sleep(delay);
             return 0;

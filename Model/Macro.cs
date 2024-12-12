@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
+﻿using _4RTools.Utils;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Threading;
-using _4RTools.Utils;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace _4RTools.Model
 {
@@ -65,7 +65,7 @@ namespace _4RTools.Model
         public Macro(string macroname, int macroLanes)
         {
             this.actionName = macroname;
-            for(int i = 1; i <= macroLanes; i++)
+            for (int i = 1; i <= macroLanes; i++)
             {
                 chainConfigs.Add(new ChainConfig(i, Key.None));
 
@@ -79,7 +79,7 @@ namespace _4RTools.Model
                 chainConfigs[macroId - 1] = new ChainConfig(macroId);
             }
             catch (Exception) { }
-            
+
         }
 
         public string GetActionName()
@@ -104,23 +104,23 @@ namespace _4RTools.Model
                         MacroKey macroKey = macro["in" + i + "mac" + chainConfig.id];
                         if (macroKey.key != Key.None)
                         {
-                            if(chainConfig.instrumentKey != Key.None)
+                            if (chainConfig.instrumentKey != Key.None)
                             {
                                 //Press instrument key if exists.
                                 Keys instrumentKey = (Keys)Enum.Parse(typeof(Keys), chainConfig.instrumentKey.ToString());
-                                Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, instrumentKey, 0);
+                                Client.SendKeysToClientIfActive((byte)instrumentKey, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                                 Thread.Sleep(30);
                             }
 
                             Keys thisk = (Keys)Enum.Parse(typeof(Keys), macroKey.key.ToString());
                             Thread.Sleep(macroKey.delay);
-                            Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
+                            Client.SendKeysToClientIfActive((byte)thisk, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
 
-                            if(chainConfig.daggerKey != Key.None)
+                            if (chainConfig.daggerKey != Key.None)
                             {
                                 //Press instrument key if exists.
                                 Keys daggerKey = (Keys)Enum.Parse(typeof(Keys), chainConfig.daggerKey.ToString());
-                                Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, daggerKey, 0);
+                                Client.SendKeysToClientIfActive((byte)daggerKey, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                                 Thread.Sleep(30);
                             }
 

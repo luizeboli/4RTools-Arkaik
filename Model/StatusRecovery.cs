@@ -2,11 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace _4RTools.Model
@@ -87,7 +83,7 @@ namespace _4RTools.Model
         private void useStatusRecovery(Key key)
         {
             if ((key != Key.None) && !Keyboard.IsKeyDown(Key.LeftAlt) && !Keyboard.IsKeyDown(Key.RightAlt))
-                Interop.PostMessage(ClientSingleton.GetClient().process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, (Keys)Enum.Parse(typeof(Keys), key.ToString()), 0);
+                Client.SendKeysToClientIfActive((byte)key, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
         }
 
     }

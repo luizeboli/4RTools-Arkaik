@@ -1,11 +1,10 @@
-﻿using System;
+﻿using _4RTools.Utils;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Net;
 
 namespace _4RTools.Model
 {
@@ -25,7 +24,7 @@ namespace _4RTools.Model
 
         public ClientDTO(string name, string description, string hpAddress, string nameAddress)
         {
-            this.name= name;
+            this.name = name;
             this.description = description;
             this.hpAddress = hpAddress;
             this.nameAddress = nameAddress;
@@ -40,7 +39,7 @@ namespace _4RTools.Model
     public sealed class ClientListSingleton
     {
         private static List<Client> clients = new List<Client>();
-        
+
         public static void AddClient(Client c)
         {
             clients.Add(c);
@@ -131,16 +130,17 @@ namespace _4RTools.Model
                         this.currentHPBaseAddress = c.currentHPBaseAddress;
                         this.currentNameAddress = c.currentNameAddress;
                         this.statusBufferAddress = c.statusBufferAddress;
-                    }catch
+                    }
+                    catch
                     {
                         MessageBox.Show("This client is not supported. Only Spammers and macro will works.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         this.currentHPBaseAddress = 0;
                         this.currentNameAddress = 0;
                         this.statusBufferAddress = 0;
                     }
-                   
+
                     //Do not block spammer for non supported Versions
-                       
+
                 }
             }
         }
@@ -149,14 +149,14 @@ namespace _4RTools.Model
         {
             byte[] bytes = PMR.ReadProcessMemory((IntPtr)address, 40u, out _num);
             List<byte> buffer = new List<byte>(); //Need a list with dynamic size 
-            for (int i =0;i < bytes.Length;i++)
+            for (int i = 0; i < bytes.Length; i++)
             {
                 if (bytes[i] == 0) break; //Check Nullability based ON ASCII Table
 
                 buffer.Add(bytes[i]); //Add only bytes needed
             }
 
-           return Encoding.Default.GetString(buffer.ToArray());
+            return Encoding.Default.GetString(buffer.ToArray());
 
         }
 
@@ -211,13 +211,13 @@ namespace _4RTools.Model
 
         public uint CurrentBuffStatusCode(int effectStatusIndex)
         {
-            return ReadMemory(this.statusBufferAddress + effectStatusIndex * 4);
+            return ReadMemory(this.statusBufferAddress + (effectStatusIndex * 4));
         }
 
         public Client GetClientByProcess(string processName)
         {
-       
-            foreach(Client c in ClientListSingleton.GetAll())
+
+            foreach (Client c in ClientListSingleton.GetAll())
             {
                 if (c.processName == processName)
                 {
@@ -227,13 +227,39 @@ namespace _4RTools.Model
             }
             return null;
         }
-    
+
         public static Client FromDTO(ClientDTO dto)
         {
             return ClientListSingleton.GetAll()
                 .Where(c => c.processName == dto.name)
                 .Where(c => c.currentHPBaseAddress == dto.hpAddressPointer)
                 .Where(c => c.currentNameAddress == dto.nameAddressPointer).FirstOrDefault();
+        }
+
+        public static bool IsClientWindowActive()
+        {
+            try
+            {
+                IntPtr activeWindowHandle = Interop.GetForegroundWindow();
+
+                uint activeProcessId;
+                Interop.GetWindowThreadProcessId(activeWindowHandle, out activeProcessId);
+
+                Process activeProcess = Process.GetProcessById((int)activeProcessId);
+                return activeProcess.ProcessName.Equals(ClientSingleton.GetClient().process.ProcessName, StringComparison.OrdinalIgnoreCase);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static void SendKeysToClientIfActive(byte bVk, byte bScan, int dwFlags, int dwExtraInfo)
+        {
+            if (IsClientWindowActive())
+            {
+                Interop.keybd_event(bVk, bScan, dwFlags, dwExtraInfo);
+            }
         }
     }
 }

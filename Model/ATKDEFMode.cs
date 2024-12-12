@@ -1,15 +1,14 @@
-﻿using System;
+﻿using _4RTools.Utils;
 using Newtonsoft.Json;
-using _4RTools.Utils;
-using System.Threading;
-using System.Drawing;
-using System.Windows.Input;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace _4RTools.Model
 {
-    public enum  ATKDEFEnum
+    public enum ATKDEFEnum
     {
         ATK = 0,
         DEF = 1,
@@ -22,8 +21,8 @@ namespace _4RTools.Model
         public int switchDelay { get; set; } = 50;
         public Key keySpammer { get; set; }
         public bool keySpammerWithClick { get; set; } = true;
-        public Dictionary<string,Key> defKeys { get; set; } = new Dictionary<string,Key>();
-        public Dictionary<string,Key> atkKeys { get; set; } = new Dictionary<string, Key>();
+        public Dictionary<string, Key> defKeys { get; set; } = new Dictionary<string, Key>();
+        public Dictionary<string, Key> atkKeys { get; set; } = new Dictionary<string, Key>();
         private int PX_MOV = Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK;
 
         public string GetActionName()
@@ -53,7 +52,7 @@ namespace _4RTools.Model
             {
                 foreach (Key key in atkKeys.Values)
                 {
-                    Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, toKeys(key), 0); //Equip ATK Items
+                    Client.SendKeysToClientIfActive((byte)toKeys(key), 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                     Thread.Sleep(this.switchDelay);
                 }
 
@@ -62,7 +61,7 @@ namespace _4RTools.Model
                     while (Keyboard.IsKeyDown(keySpammer))
                     {
 
-                        Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
+                        Client.SendKeysToClientIfActive((byte)thisk, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                         Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_LBUTTONDOWN, 0, 0);
                         Thread.Sleep(1);
                         Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_LBUTTONUP, 0, 0);
@@ -73,21 +72,21 @@ namespace _4RTools.Model
                 {
                     while (Keyboard.IsKeyDown(keySpammer))
                     {
-                        Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
+                        Client.SendKeysToClientIfActive((byte)thisk, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                         Thread.Sleep(this.ahkDelay);
                     }
                 }
 
                 foreach (Key key in defKeys.Values)
                 {
-                    Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, toKeys(key), 0); //Equip DEF Items
+                    Client.SendKeysToClientIfActive((byte)toKeys(key), 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                     Thread.Sleep(this.switchDelay);
                 }
             }
             return 0;
         }
 
-        public void AddSwitchItem(string dictKey,Key k, ATKDEFEnum type)
+        public void AddSwitchItem(string dictKey, Key k, ATKDEFEnum type)
         {
             Dictionary<string, Key> copy = type == ATKDEFEnum.DEF ? this.defKeys : this.atkKeys;
 
@@ -96,11 +95,11 @@ namespace _4RTools.Model
                 RemoveSwitchEntry(dictKey, type);
             }
 
-            if(k != Key.None)
+            if (k != Key.None)
             {
                 copy.Add(dictKey, k);
             }
-            
+
         }
 
         public void RemoveSwitchEntry(string dictKey, ATKDEFEnum type)

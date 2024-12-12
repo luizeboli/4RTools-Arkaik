@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Threading;
-using System.Windows.Input;
-using System.Drawing;
-using _4RTools.Utils;
+﻿using _4RTools.Utils;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace _4RTools.Model
 {
@@ -51,7 +50,8 @@ namespace _4RTools.Model
             Client roClient = ClientSingleton.GetClient();
             if (roClient != null)
             {
-                if (thread != null) {
+                if (thread != null)
+                {
                     _4RThread.Stop(this.thread);
                 }
 
@@ -100,7 +100,8 @@ namespace _4RTools.Model
             Func<int, int> send_click;
 
             //Send Event Directly to Window via PostMessage
-            send_click = (evt) => {
+            send_click = (evt) =>
+            {
                 Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_LBUTTONDOWN, 0, 0);
                 Thread.Sleep(1);
                 Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_LBUTTONUP, 0, 0);
@@ -111,7 +112,7 @@ namespace _4RTools.Model
             {
                 while (Keyboard.IsKeyDown(config.key))
                 {
-                    Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
+                    Client.SendKeysToClientIfActive((byte)thisk, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                     System.Windows.Forms.Cursor.Position = new Point(System.Windows.Forms.Cursor.Position.X - Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK, System.Windows.Forms.Cursor.Position.Y - Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK);
                     send_click(0);
                     System.Windows.Forms.Cursor.Position = new Point(System.Windows.Forms.Cursor.Position.X + Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK, System.Windows.Forms.Cursor.Position.Y + Constants.MOUSE_DIAGONAL_MOVIMENTATION_PIXELS_AHK);
@@ -122,7 +123,7 @@ namespace _4RTools.Model
             {
                 while (Keyboard.IsKeyDown(config.key))
                 {
-                    Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
+                    Client.SendKeysToClientIfActive((byte)thisk, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                     send_click(0);
                     Thread.Sleep(this.AhkDelay);
                 }
@@ -134,7 +135,7 @@ namespace _4RTools.Model
             while (Keyboard.IsKeyDown(config.key))
             {
                 Point cursorPos = System.Windows.Forms.Cursor.Position;
-                Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
+                Client.SendKeysToClientIfActive((byte)thisk, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                 mouse_event(Constants.MOUSEEVENTF_LEFTDOWN, (uint)cursorPos.X, (uint)cursorPos.Y, 0, 0);
                 Thread.Sleep(1);
                 mouse_event(Constants.MOUSEEVENTF_LEFTUP, (uint)cursorPos.X, (uint)cursorPos.Y, 0, 0);
@@ -146,7 +147,7 @@ namespace _4RTools.Model
         {
             while (Keyboard.IsKeyDown(config.key))
             {
-                Interop.PostMessage(roClient.process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, thisk, 0);
+                Client.SendKeysToClientIfActive((byte)thisk, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
                 Thread.Sleep(this.AhkDelay);
             }
         }

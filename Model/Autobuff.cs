@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Windows.Input;
-using System.Windows.Forms;
-using System.Collections.Generic;
+﻿using _4RTools.Utils;
 using Newtonsoft.Json;
-using _4RTools.Utils;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace _4RTools.Model
 {
@@ -23,7 +23,7 @@ namespace _4RTools.Model
             Client roClient = ClientSingleton.GetClient();
             if (roClient != null)
             {
-                 this.thread = AutoBuffThread(roClient);
+                this.thread = AutoBuffThread(roClient);
                 _4RThread.Start(this.thread);
             }
         }
@@ -111,8 +111,11 @@ namespace _4RTools.Model
 
         private void useAutobuff(Key key)
         {
-            if((key != Key.None) && !Keyboard.IsKeyDown(Key.LeftAlt) && !Keyboard.IsKeyDown(Key.RightAlt))
-                Interop.PostMessage(ClientSingleton.GetClient().process.MainWindowHandle, Constants.WM_KEYDOWN_MSG_ID, (Keys)Enum.Parse(typeof(Keys), key.ToString()), 0);
+            if ((key != Key.None) && !Keyboard.IsKeyDown(Key.LeftAlt) && !Keyboard.IsKeyDown(Key.RightAlt))
+            {
+                Keys k = (Keys)Enum.Parse(typeof(Keys), key.ToString());
+                Client.SendKeysToClientIfActive((byte)k, 0, Constants.WM_KEYDOWN_MSG_ID, 0);
+            }
         }
     }
 }
