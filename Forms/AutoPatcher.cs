@@ -1,13 +1,13 @@
-﻿using System;
+﻿using _4RTools.Utils;
+using Aspose.Zip.Rar;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using _4RTools.Utils;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Net.Http;
-using Aspose.Zip.Rar;
-using System.Net;
 
 namespace _4RTools.Forms
 {
@@ -69,7 +69,6 @@ namespace _4RTools.Forms
             }
             finally
             {
-                new ClientUpdaterForm().Show();
                 Hide();
             }
         }
@@ -84,7 +83,8 @@ namespace _4RTools.Forms
 
         void _4RTools_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            this.BeginInvoke((MethodInvoker)delegate {
+            this.BeginInvoke((MethodInvoker)delegate
+            {
                 double bytesIn = double.Parse(e.BytesReceived.ToString());
                 double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
                 double percentage = bytesIn / totalBytes * 100;
